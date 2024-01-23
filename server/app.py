@@ -1,8 +1,8 @@
-
-from config import app, api
-from models import db, User, Comment, Vote, Post
+from config import app, api, db
+from models import User, Comment, Vote, Post
 from flask import make_response, jsonify, request
 from flask_restful import Resource
+
 
 
 # !RESOURCES

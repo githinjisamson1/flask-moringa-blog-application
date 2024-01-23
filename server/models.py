@@ -1,17 +1,7 @@
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import MetaData
+from config import db, bcrypt
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
-from config import bcrypt
-
-# metadata
-metadata = MetaData(naming_convention={
-    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
-})
-
-# instatiate SQLAlchemy
-db = SQLAlchemy(metadata=metadata)
 
 
 # !USER MODEL
@@ -26,7 +16,7 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String, unique=True, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
     full_name = db.Column(db.String, nullable=False)
-    created_at = db.column(db.DateTime, server_default=db.func.now())
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
     _password_hash = db.Column(db.String, unique=True, nullable=False)
 
     # relationships
@@ -98,8 +88,8 @@ class Comment(db.Model, SerializerMixin):
     # columns
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String, nullable=False)
-    created_at = db.column(db.DateTime, server_default=db.func.now())
-    updated_at = db.column(db.DateTime, onupdate=db.func.now())
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
     user_id = db.Column(db.String, db.ForeignKey("users.id"))
     post_id = db.Column(db.String, db.ForeignKey("posts.id"))
 
@@ -134,7 +124,7 @@ class Vote(db.Model, SerializerMixin):
     # columns
     id = db.Column(db.Integer, primary_key=True)
     vote_type = db.Column(db.Boolean)
-    created_at = db.column(db.DateTime, server_default=db.func.now())
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
 
@@ -162,8 +152,8 @@ class Post(db.Model, SerializerMixin):
     title = db.Column(db.String, nullable=False)
     content = db.Column(db.String, nullable=False)
     resources = db.Column(db.String)
-    created_at = db.column(db.DateTime, server_default=db.func.now())
-    updated_at = db.column(db.DateTime, onupdate=db.func.now())
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
 
     # relationships
