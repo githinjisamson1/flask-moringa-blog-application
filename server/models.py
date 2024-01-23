@@ -13,8 +13,11 @@ db = SQLAlchemy(metadata=metadata)
 
 # !MODELS
 
-class User(db.Model):
+class User(db.Model, SerializerMixin):
     __tablename__ = "users"
+
+    # serialize to prevent recursion
+    serialize_rules = ("-posts.user", "-comments.user", "-votes.user",)
 
     # columns
     id = db.Column(db.Integer, primary_key=True)
@@ -35,8 +38,10 @@ class User(db.Model):
         return f'''User {self.username} {self.email} {self.full_name}'''
 
 
-class Comment(db.Model):
+class Comment(db.Model, SerializerMixin):
     __tablename__ = "comments"
+
+    serialize_rules = ("-user.comments", "-post.user",)
 
     # columns
     id = db.Column(db.Integer, primary_key=True)
@@ -55,8 +60,10 @@ class Comment(db.Model):
         return f'''Comment {self.content} '''
 
 
-class Vote(db.Model):
+class Vote(db.Model, SerializerMixin):
     __tablename__ = "votes"
+
+    serialize_rules = ("-user.votes", "-post.votes",)
 
     # columns
     id = db.Column(db.Integer, primary_key=True)
@@ -74,8 +81,10 @@ class Vote(db.Model):
         return f'''Vote {self.vote_type}'''
 
 
-class Post(db.Model):
+class Post(db.Model, SerializerMixin):
     __tablename__ = "posts"
+
+    serialize_rules = ("-comments.post", "-votes.post",)
 
     # columns
     id = db.Column(db.Integer, primary_key=True)
