@@ -7,8 +7,11 @@ metadata = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
 })
 
+# instatiate SQLAlchemy
 db = SQLAlchemy(metadata=metadata)
 
+
+# !MODELS
 
 class User(db.Model):
     __tablename__ = "users"
@@ -21,7 +24,13 @@ class User(db.Model):
     created_at = db.column(db.DateTime, server_default=db.func.now())
     _password_hash = db.Column(db.String, unique=True, nullable=False)
 
+    # relationships
+    posts = db.relationship("Post", backref="user")
+    comments = db.relationship("Comment", back_populates="user")
+    votes = db.relationship("Vote", back_populates="user")
+
     # representation
+
     def __repr__(self):
         return f'''User {self.username} {self.email} {self.full_name}'''
 
@@ -37,6 +46,10 @@ class Comment(db.Model):
     user_id = db.Column(db.String, db.ForeignKey("users.id"))
     post_id = db.Column(db.String, db.ForeignKey("posts.id"))
 
+    # relationships
+    user = db.relationship("User", back_populates="comments")
+    post = db.relationship("Post", back_populates="comments")
+
     # representation
     def __repr__(self):
         return f'''Comment {self.content} '''
@@ -51,6 +64,10 @@ class Vote(db.Model):
     created_at = db.column(db.DateTime, server_default=db.func.now())
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
+
+    # relationships
+    user = db.relationship("User", back_populates="votes")
+    post = db.relationship("Post", back_populates="votes")
 
     # representation
     def __repr__(self):
@@ -71,6 +88,10 @@ class Post(db.Model):
     created_at = db.column(db.DateTime, server_default=db.func.now())
     updated_at = db.column(db.DateTime, onupdate=db.func.now())
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+
+    # relationships
+    comments = db.relationship("Comment", back_populates="post")
+    votes = db.relationship("Vote", back_populates="post")
 
     # representation
     def __repr__(self):
