@@ -1,8 +1,9 @@
-from config import app, api, db
-from models import User, Comment, Vote, Post
-from flask import make_response, jsonify, request
+from server.config import app, api
+from flask import make_response, jsonify
 from flask_restful import Resource
+from server.controllers.user_controllers import user_bp
 
+app.register_blueprint(user_bp)
 
 
 # !RESOURCES

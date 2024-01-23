@@ -62,8 +62,8 @@ def seed_database():
         db.session.add(post)
         db.session.commit()
 
-    # extract post_id since posts have already been seeded atp
 
+    # extract post_id since posts have already been seeded atp
     post_ids = [post.id for post in Post.query.all()]
 
     print("Inserting comments 📑📑📑...")
