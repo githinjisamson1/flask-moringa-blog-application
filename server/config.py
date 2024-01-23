@@ -2,7 +2,7 @@ from os import environ
 from flask import Flask
 from flask_migrate import Migrate
 from flask_restful import Api
-from models import db
+from models import db, User, Comment, Vote, Post
 from flask_cors import CORS
 from dotenv import load_dotenv
 load_dotenv()
