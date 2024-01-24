@@ -1,0 +1,33 @@
+:root {
+  --white: #fff;
+  --black: #333;
+}
+
+.navbar {
+  background-color: yellow;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+.logo img {
+  width: 200px;
+}
+.register-login-btns button {
+  margin-right: 1rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+.register-login-btns .signin {
+  background: transparent;
+}
+.register-login-btns .register {
+  padding: 10px;
+  border-radius: 7px;
+  color: var(--white);
+  background-color: var(--black);
+  
+}
