@@ -1,8 +1,9 @@
-from flask import Blueprint, make_response, jsonify
+from flask import Blueprint, make_response, jsonify, request
 from flask_restful import Api, Resource, reqparse
-from server.models import User, Comment, Vote, Post
+from server.models import User, Post, Comment, Vote
 from server.config import bcrypt, db
 
+# instantiate Blueprint
 user_bp = Blueprint("user_bp", __name__)
 api = Api(user_bp)
 
@@ -16,6 +17,7 @@ parser.add_argument('confirm_password', type=str,
 parser.add_argument('full_name', type=str, help='Provide full name')
 
 
+# resources
 class Users(Resource):
     def get(self):
         users_lc = [user.to_dict() for user in User.query.all()]
@@ -25,32 +27,39 @@ class Users(Resource):
         return response
 
     def post(self):
-        # access user data
-        args = parser.parse_args()
-        password = args("password")
-        confirm_password = args("password")
+        try:
+            # access user data/similar to request.get_json()
+            args = parser.parse_args()
 
-        if not password == confirm_password:
-            return {"error": "Passwords do not match!"}, 401
+            password = args["password"]
+            confirm_password = args["confirm_password"]
 
-        new_user = User(
-            username=args["username"],
-            email=args["email"],
-            _password_hash=bcrypt.generate_password_hash(
-                password.encode('utf-8'))
-        )
+            if not password == confirm_password:
+                return {"error": "Passwords do not match!"}, 401
 
-        db.session.add(new_user)
-        db.session.commit()
+            # proceed to create new_user
+            new_user = User(
+                username=args["username"],
+                full_name=args["full_name"],
+                email=args["email"],
+                _password_hash=bcrypt.generate_password_hash(
+                    password.encode('utf-8'))
+            )
 
-        response = make_response(jsonify(new_user.to_dict()), 201)
+            db.session.add(new_user)
+            db.session.commit()
 
-        return response
+            response = make_response(jsonify(new_user.to_dict()), 201)
+
+            return response
+
+        except ValueError as e:
+            return {"error": [str(e)]}, 401
 
 
 class UserById(Resource):
     def get(self, user_id):
-        user = User.query.filter_by(id == user_id).first()
+        user = User.query.filter_by(id=user_id).first()
 
         if not user:
             return {"error": "User not found!"}, 404
@@ -60,33 +69,50 @@ class UserById(Resource):
         return response
 
     def patch(self, user_id):
-        user = User.query.filter_by(id == user_id).first()
+        try:
+            data = request.get_json()
 
-        args = parser.parse_args()
+            user = User.query.filter_by(id=user_id).first()
 
-        for attr in args:
-            setattr(user, attr, args.get(attr))
+            for attr in data:
+                setattr(user, attr, data.get(attr))
 
-        db.session.commit()
+            db.session.commit()
 
-        response = make_response(jsonify(user.to_dict()), 200)
+            response = make_response(jsonify(user.to_dict()), 200)
 
-        return response
+            return response
+
+        except ValueError as e:
+            return {"error": [str(e)]}
 
     def delete(self, user_id):
-        user = User.query.filter_by(id == user_id).first()
+        user = User.query.filter_by(id=user_id).first()
 
-        # delete
-        user_posts = Post.query.filter_by(user_id == user_id).all()
-        user_comments = Comment.query.filter_by(user_id == user_id).all()
-        user_votes = Post.query.filter_by(user_id == user_id).all()
+        if not user:
+            return {"error": "User not found!"}, 404
 
-        Post.query.delete(user_posts)
-        Comment.query.delete(user_comments)
-        Vote.query.delete(user_votes)
+        user_posts = Post.query.filter_by(user_id=user_id).all()
+        user_comments = Comment.query.filter_by(user_id=user_id).all()
+        user_votes = Post.query.filter_by(user_id=user_id).all()
+
+        # !delete user plus associated posts, comments, votes
+        db.session.delete(user)
+
+        if user_posts:
+            Post.query.delete(user_posts)
+
+        if user_comments:
+            Comment.query.delete(user_comments)
+
+        if user_votes:
+            Vote.query.delete(user_votes)
+
+        db.session.commit()
 
         return {"message": "User account deleted successfully"}, 200
 
 
+# resources + routes
 api.add_resource(Users, "/users")
 api.add_resource(UserById, "/users/<int:user_id>")
