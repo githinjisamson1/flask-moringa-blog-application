@@ -4,18 +4,23 @@
 }
 
 .navbar {
-  background-color: yellow;
+  background-color: var(--white);
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
+  box-shadow: 0 0 5px;
+  position: sticky;
+  z-index: 1;
 }
 .logo img {
   width: 200px;
+  margin-left: 1rem;
+  cursor: pointer;
 }
 .register-login-btns button {
-  margin-right: 1rem;
+  margin-right: 2rem;
   border: none;
   outline: none;
   cursor: pointer;
@@ -27,7 +32,12 @@
 .register-login-btns .register {
   padding: 10px;
   border-radius: 7px;
-  color: var(--white);
   background-color: var(--black);
-  
+  color: var(--white);
+  transition: all 500ms ease;
+}
+.register-login-btns .register:hover {
+  background-color: var(--white);
+  color: var(--black);
+  border: 1.5px solid #ccc;
 }

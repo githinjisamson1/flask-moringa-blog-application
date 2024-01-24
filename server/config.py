@@ -8,8 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from dotenv import load_dotenv
 
-
-
+# invoke load_dotenv
 load_dotenv()
 
 # instantiate Flask app
@@ -23,9 +22,12 @@ metadata = MetaData(naming_convention={
 # instatiate SQLAlchemy
 db = SQLAlchemy(metadata=metadata)
 
+# declare absolute path where to create instance/moringa.db
+db_path = "/home/samson_githinji/Moringa-Development/code/phase-4/moringa-blog-application/server/instance/moringa.db"
+
 # configure Flask with SQLAlchemy settings
 app.secret_key = environ.get("SECRET_KEY")
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///moringa.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + db_path
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.json.compact = False
 
