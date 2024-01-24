@@ -1,7 +1,7 @@
-from server.config import db, bcrypt
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
+from server.config import db, bcrypt
 
 
 # !USER MODEL
@@ -9,7 +9,8 @@ class User(db.Model, SerializerMixin):
     __tablename__ = "users"
 
     # serialize to prevent recursion
-    serialize_rules = ("-posts.user", "-comments.user", "-votes.user",)
+    serialize_rules = ('-comments.user', '-comments.post',
+                       '-votes.user', '-posts.user', '-votes.post', "-posts.comments","-posts.votes")
 
     # columns
     id = db.Column(db.Integer, primary_key=True)
@@ -21,8 +22,8 @@ class User(db.Model, SerializerMixin):
 
     # relationships
     posts = db.relationship("Post", backref="user")
-    comments = db.relationship("Comment", back_populates="user")
-    votes = db.relationship("Vote", back_populates="user")
+    comments = db.relationship("Comment", backref="user")
+    votes = db.relationship("Vote", backref="user")
 
     # !password hashing/validation
     @hybrid_property
@@ -83,7 +84,8 @@ class Comment(db.Model, SerializerMixin):
     __tablename__ = "comments"
 
     # serialize to prevent recursion
-    serialize_rules = ("-user.comments", "-post.user",)
+    serialize_rules = ('-post.comments', '-user.comments',
+                       '-user.posts', '-user.votes', '-post.user', '-post.votes')
 
     # columns
     id = db.Column(db.Integer, primary_key=True)
@@ -94,8 +96,8 @@ class Comment(db.Model, SerializerMixin):
     post_id = db.Column(db.String, db.ForeignKey("posts.id"))
 
     # relationships
-    user = db.relationship("User", back_populates="comments")
-    post = db.relationship("Post", back_populates="comments")
+    # user = db.relationship("User", back_populates="comments")
+    # post = db.relationship("Post", back_populates="comments")
 
     # content validation
     @validates("content")
@@ -119,7 +121,7 @@ class Vote(db.Model, SerializerMixin):
     __tablename__ = "votes"
 
     # serialize to prevent recursion
-    serialize_rules = ("-user.votes", "-post.votes",)
+    serialize_rules = ('-user.votes', '-user.comments', '-user.posts', "-post.comments", "-post.votes", "-post.user")
 
     # columns
     id = db.Column(db.Integer, primary_key=True)
@@ -129,8 +131,8 @@ class Vote(db.Model, SerializerMixin):
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
 
     # relationships
-    user = db.relationship("User", back_populates="votes")
-    post = db.relationship("Post", back_populates="votes")
+    # user = db.relationship("User", back_populates="votes")
+    # post = db.relationship("Post", back_populates="votes")
 
     # representation
     def __repr__(self):
@@ -142,7 +144,8 @@ class Post(db.Model, SerializerMixin):
     __tablename__ = "posts"
 
     # serialize to prevent recursion
-    serialize_rules = ("-comments.post", "-votes.post",)
+    serialize_rules = ('-comments.post', '-comments.user',
+                       '-votes.post', '-votes.user', '-user.posts', '-user.comments', '-user.votes')
 
     # columns
     id = db.Column(db.Integer, primary_key=True)
@@ -157,8 +160,8 @@ class Post(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
 
     # relationships
-    comments = db.relationship("Comment", back_populates="post")
-    votes = db.relationship("Vote", back_populates="post")
+    comments = db.relationship("Comment", backref="post")
+    votes = db.relationship("Vote", backref="post")
 
     # phase validation
     @validates("phase")
@@ -193,4 +196,4 @@ class Post(db.Model, SerializerMixin):
 
     # representation
     def __repr__(self):
-        return f'''Post {self.phase} {self.preview} {self.minutes_to_read} {self.title} {self.content} {self.resources}'''
+        return f'''Post {self.phase} {self.title} {self.content} {self.resources}'''
