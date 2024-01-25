@@ -12,7 +12,7 @@ const Footer = () => {
   return (
     <div className="footer-container">
       <div className="footer">
-        <div className="left">
+        <div className="footer-left">
           <div className="logo">
             <img src={moringaLogo} alt="" />
           </div>
@@ -38,7 +38,7 @@ const Footer = () => {
           </ul>
         </div>
 
-        <div className="center">
+        <div className="footer-center">
           <h2 className="location">
             Ngong Lane, Ngong Lane Plaza, 1st Floor, Nairobi Kenya
           </h2>
@@ -87,7 +87,7 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        <div className="right">
+        <div className="footer-right">
           <a href="#q">
             <FacebookIcon sx={{fontSize:"2rem"}}/>
           </a>
