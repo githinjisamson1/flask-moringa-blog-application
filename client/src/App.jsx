@@ -1,8 +1,8 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/home/Home";
-import Signup from "./components/home/Signup";
-import Signin from "./components/home/Signin";
+import Signup from "./components/signup/Signup";
+import Signin from './components/signin/Signin';
 // npm install @mui/icons-material @mui/material @emotion/styled @emotion/react
 
 const App = () => {

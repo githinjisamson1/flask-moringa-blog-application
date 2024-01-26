@@ -8,31 +8,7 @@ import { useNavigate } from "react-router-dom";
 const Signup = () => {
   const navigate = useNavigate();
 
-  //   const initialValues = {
-  //     username: "",
-  //     fullName: "",
-  //     email: "",
-  //     password: "",
-  //     confirmPassword: "",
-  //   };
 
-  //   const validationSchema = yup.object({
-  //     username: yup.string().required("Username required"),
-  //     fullName: yup.string().required("Full Name required"),
-  //     email: yup.string()
-  //       .email("Invalid email address")
-  //       .required("Email required"),
-  //     password: yup.string()
-  //       .min(8, "Password must be atleast 8 characters")
-  //       .required("Password required"),
-  //     confirmPassword: yup.string()
-  //       .oneOf([yup.ref("password"), null], "Passwords must match")
-  //       .required("Please confirm password"),
-  //   });
-
-  //   const onSubmit = (values) => {
-  //     console.log(values);
-  //   };
 
   // 3 args => initialValues, validationSchema, onSubmit
   const formik = useFormik({
@@ -43,6 +19,7 @@ const Signup = () => {
       password: "",
       confirmPassword: "",
     },
+
     validationSchema: yup.object().shape({
       username: yup.string().required("Username required"),
       fullName: yup.string().required("Full Name required"),
@@ -60,6 +37,7 @@ const Signup = () => {
         // .oneOf(["password"])
         .required("Please confirm password"),
     }),
+    
     onSubmit: (values) => {
       console.log(values);
       //   fetch("/signup", {
