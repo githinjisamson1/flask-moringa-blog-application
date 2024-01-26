@@ -2,71 +2,67 @@ from flask import Blueprint, make_response, jsonify, request
 from flask_restful import Api, Resource, reqparse
 from server.models import Comment
 from server.config import db
+from server.auth_middleware import token_required
 
-# instantiations
 comment_bp = Blueprint("comment_bp", __name__)
 api = Api(comment_bp)
 
-# comment data
+
 parser = reqparse.RequestParser()
 parser.add_argument('content', type=str, help='Provide content')
-parser.add_argument('user_id', type=int, help='Provide user id')
 parser.add_argument('post_id', type=int, help='Provide post id')
 
 
-# resources
 class Comments(Resource):
     def get(self):
-
         comment_lc = [comment.to_dict() for comment in Comment.query.all()]
+        return make_response(jsonify(comment_lc), 200)
 
-        response = make_response(jsonify(comment_lc), 200)
-
-        return response
-
-    def post(self):
+    @token_required
+    def post(current_user, *args):
         try:
-            # access comment data
             args = parser.parse_args()
 
-            # create new comment
             new_comment = Comment(
-                content=args["content"],
-                user_id=args["user_id"],
-                comment_id=args["comment_id"]
-
+                post_id=args["post_id"],
+                user_id=current_user.id,
+                content=args["content"]
             )
-            # add to db
             db.session.add(new_comment)
             db.session.commit()
 
-            response = make_response(jsonify(new_comment.to_dict()), 201)
-
-            return response
-
+            return make_response(jsonify(new_comment), 200)
         except ValueError as e:
-            return {"error": [str(e)]}, 401
+            return {"error": [str(e)]}
 
 
 class CommentByID(Resource):
     def get(self, comment_id):
         comment = Comment.query.filter_by(id=comment_id).first()
-
         if not comment:
-            return {"error": "Comment not found!"}, 404
-
-        response = make_response(jsonify(comment.to_dict()), 201)
-
+            return {"error": "comment not found"}, 404
+        response = make_response(jsonify(comment.to_dict()), 200)
         return response
 
-    def patch(self, comment_id):
+    @token_required
+    def patch(current_user, *args, comment_id):
+        comment = Comment.query.filter_by(id=comment_id).first()
+        if not comment or comment.user_id != current_user.id:
+            return {
+                "message": "failed to update comment",
+                "error": "Unauthorized request",
+                "data": None
+            }, 401
         try:
             data = request.get_json()
-
-            comment = Comment.query.filter_by(id=comment_id).first()
-
             for attr in data:
-                setattr(comment, attr, data.get(attr))
+                if attr in ['post_id', 'id']:
+                    return {
+                        "message": "failed to update comment. You can only edit the content",
+                        "error": "Unauthorized request",
+                        "data": None
+                    }, 401
+                setattr(comment, attr, data[attr])
 
             db.session.commit()
 
@@ -75,22 +71,20 @@ class CommentByID(Resource):
         except ValueError as e:
             return {"error": [str(e)]}
 
-    def delete(self, comment_id):
+    @token_required
+    def delete(current_user, *args, comment_id):
         comment = Comment.query.filter_by(id=comment_id).first()
-
-        if not comment:
-            return {"error": "Comment not found!"}, 404
+        if not comment or comment.user_id != current_user.id:
+            return {
+                "message": "failed to delete comment",
+                "error": "Unauthorized request",
+                "data": None
+            }, 401
 
         db.session.delete(comment)
-
         db.session.commit()
 
-        response_body = {
-            "message": "Comment deleted successfully"
-        }
-        response = make_response(jsonify(response_body), 200)
-
-        return response
+        return {"message": "comment deleted successfully"}
 
 
 api.add_resource(Comments, "/comments")
