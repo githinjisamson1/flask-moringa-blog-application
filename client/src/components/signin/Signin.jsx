@@ -75,6 +75,7 @@ const Signin = () => {
               name="username"
               value={formik.values.username}
               onChange={formik.handleChange}
+              placeholder="e.g., johndoe1"
             />
             {formik.touched.username && formik.errors.username ? (
               <div className="error">{formik.errors.username}</div>
@@ -90,6 +91,7 @@ const Signin = () => {
               name="password"
               value={formik.values.password}
               onChange={formik.handleChange}
+              placeholder="Enter password"
             />
             {formik.touched.password && formik.errors.password ? (
               <div className="error">{formik.errors.password}</div>

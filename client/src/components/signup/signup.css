@@ -1,6 +1,6 @@
 .container {
   padding: 1rem;
-  background: url(../../assets/signupBgImage.jpg);
+  background: url(../../assets/signupBgImage.avif);
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -10,7 +10,7 @@
   gap: 1rem;
   width: 60%;
   height: 800px;
-  box-shadow: 0 7px 10px;
+  box-shadow: 0 7px 15px;
   border-radius: 20px;
   margin-left: auto;
   margin-right: auto;

@@ -17,7 +17,6 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import moringaLogo from "../../assets/moringaLogo.png";
 
-
 // Styled components for customization
 const Search = styled("div")(({ theme }) => ({
   // Styling for the search bar
@@ -170,7 +169,10 @@ function Header() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar
+        position="static"
+        sx={{ backgroundColor: "white", color: "#333" }}
+      >
         <Toolbar>
           <IconButton
             size="large"
@@ -196,7 +198,7 @@ function Header() {
               style={{ width: "200px", height: "100%" }}
             />
           </Box>
-          <Search>
+          <Search sx={{ backgroundColor: "#eee" }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>

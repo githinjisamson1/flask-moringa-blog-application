@@ -90,6 +90,7 @@ const Signup = () => {
               name="username"
               value={formik.values.username}
               onChange={formik.handleChange}
+              placeholder="e.g., johndoe1"
             />
             {formik.touched.username && formik.errors.username ? (
               <div className="error">{formik.errors.username}</div>
@@ -105,6 +106,7 @@ const Signup = () => {
               name="full_name"
               value={formik.values.full_name}
               onChange={formik.handleChange}
+              placeholder="e.g., John Doe"
             />
             {formik.touched.full_name && formik.errors.full_name ? (
               <div className="error">{formik.errors.full_name}</div>
@@ -120,6 +122,7 @@ const Signup = () => {
               name="email"
               value={formik.values.email}
               onChange={formik.handleChange}
+              placeholder="e.g., john.doe@student.moringaschool.com"
             />
             {formik.touched.email && formik.errors.email ? (
               <div className="error">{formik.errors.email}</div>
@@ -135,6 +138,7 @@ const Signup = () => {
               name="password"
               value={formik.values.password}
               onChange={formik.handleChange}
+              placeholder="Enter password"
             />
             {formik.touched.password && formik.errors.password ? (
               <div className="error">{formik.errors.password}</div>
@@ -150,6 +154,7 @@ const Signup = () => {
               name="confirm_password"
               value={formik.values.confirm_password}
               onChange={formik.handleChange}
+              placeholder="Confirm password"
             />
             {formik.touched.confirm_password &&
             formik.errors.confirm_password ? (
