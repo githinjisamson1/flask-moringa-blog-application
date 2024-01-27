@@ -14,6 +14,12 @@ const SinglePost = ({
   votes,
   comments,
 }) => {
+  const [isFullTextVisible, setIsFullTextVisible] = useState(false);
+
+  const toggleReadMore = () => {
+    setIsFullTextVisible(!isFullTextVisible);
+  };
+
   // console.log(votes[0].vote_type);
 
   const numberOfVotes = votes.filter((vote) => {
@@ -31,7 +37,20 @@ const SinglePost = ({
         <h3>{title}</h3>
       </div>
 
-      <div className="post-content">{content}</div>
+      <div className="post-content">
+        {isFullTextVisible ? (
+          <div>{content}</div>
+        ) : (
+          <div>
+            {content.length > 300 ? `${content.slice(0, 300)}` : content}
+          </div>
+        )}
+        {content.length > 300 && (
+          <span className="read-more" onClick={toggleReadMore}>
+            {isFullTextVisible ? "Read Less" : "Read More"}
+          </span>
+        )}
+      </div>
 
       <div className="post-bottom">
         <div className="vote-details">

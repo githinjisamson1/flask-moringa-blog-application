@@ -42,4 +42,8 @@
   gap: 0.5rem;
   cursor: pointer;
 }
-
+.read-more{
+  color: #003566;
+  cursor: pointer;
+  font-weight: bold;
+}
