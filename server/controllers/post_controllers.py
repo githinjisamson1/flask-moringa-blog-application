@@ -4,9 +4,11 @@ from server.models import User, Post, Comment, Vote
 from server.config import db
 from server.auth_middleware import token_required
 
+# Instantiate Blueprint
 post_bp = Blueprint("post_bp", __name__)
 api = Api(post_bp)
 
+# Post data parser
 parser = reqparse.RequestParser()
 parser.add_argument('phase', type=str, help='Provide phase')
 parser.add_argument('title', type=str, help='Provide title')
@@ -14,6 +16,7 @@ parser.add_argument('content', type=str, help='Provide content')
 parser.add_argument('resources', type=str, help='Provide resources')
 
 
+# Post resources
 class Posts(Resource):
     def get(self):
         post_lc = [post.to_dict() for post in Post.query.all()]
@@ -99,5 +102,6 @@ class PostByID(Resource):
         return response
 
 
+# Add resources to the API
 api.add_resource(Posts, "/posts")
 api.add_resource(PostByID, "/posts/<int:post_id>")

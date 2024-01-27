@@ -4,16 +4,20 @@ from server.models import Vote
 from server.config import db
 from server.auth_middleware import token_required
 
+
+# Instantiate Blueprint
 vote_bp = Blueprint("vote_bp", __name__)
 api = Api(vote_bp)
 
 
+# Vote data parser
 parser = reqparse.RequestParser()
 parser.add_argument('vote_type', type=str, help='Provide vote')
 parser.add_argument('post_id', type=int, help='Provide post id')
 parser.add_argument('user_id', type=int, help='Provide user id')
 
 
+# Vote resources
 class Votes(Resource):
     def get(self):
         vote_lc = [vote.to_dict() for vote in Vote.query.all()]
@@ -81,5 +85,6 @@ class VoteByID(Resource):
     #     return {"message": "Vote deleted successfully"}, 200
 
 
+# Add resources to the API
 api.add_resource(Votes, "/votes")
 api.add_resource(VoteByID, "/votes/<int:vote_id>")

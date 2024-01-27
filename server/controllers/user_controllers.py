@@ -4,10 +4,11 @@ from server.config import bcrypt, db
 from server.models import User, Post, Comment, Vote
 from server.auth_middleware import token_required
 
-
+# instatiate Blueprint
 user_bp = Blueprint('user_bp', __name__)
 api = Api(user_bp)
 
+# user data parser
 parser = reqparse.RequestParser()
 parser.add_argument('username', type=str, help='please provide an email')
 parser.add_argument('email', type=str, help='please provide an email')
@@ -18,6 +19,7 @@ parser.add_argument('full_name', type=str,
                     help='please provide your full name')
 
 
+# User resources
 class Users(Resource):
     def get(self):
         users = [user.to_dict() for user in User.query.all()]
@@ -34,6 +36,7 @@ class Users(Resource):
             new_user = User(
                 username=args['username'],
                 email=args['email'],
+                full_name=args["full_name"],
                 _password_hash=bcrypt.generate_password_hash(
                     args['password'].encode('utf-8')
                 )
@@ -119,5 +122,6 @@ class UserByID(Resource):
         return {"message": "User account has been deleted successfully"}, 200
 
 
+# Add resources to the API
 api.add_resource(Users, '/users')
 api.add_resource(UserByID, '/users/<int:id>')
