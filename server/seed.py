@@ -62,7 +62,6 @@ def seed_database():
         db.session.add(post)
         db.session.commit()
 
-
     # extract post_id since posts have already been seeded atp
     post_ids = [post.id for post in Post.query.all()]
 
@@ -92,6 +91,7 @@ def seed_database():
     print("Complete 🤝🤝🤝...")
 
 
+# Run the seeding function if the script is executed directly
 if __name__ == "__main__":
     with app.app_context():
         seed_database()
