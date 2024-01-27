@@ -14,19 +14,11 @@ const SinglePost = ({
   votes,
   comments,
 }) => {
-  console.log(votes[0].vote_type);
-  // const [upvotes, setUpvotes] = useState([]);
-  // const [numberOfComments, setNumberOfComments] = useState(0);
+  // console.log(votes[0].vote_type);
 
   const numberOfVotes = votes.filter((vote) => {
     return vote.vote_type === true;
   });
-
-  // votes.reduce((vote, upvotes) => {
-  //   if (vote.vote_type === true) {
-  //     setUpvotes((upvotes) => upvotes + 1);    }
-
-  // }, upvotes);
 
   return (
     <div className="single-post">

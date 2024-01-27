@@ -5,7 +5,7 @@ import "./styles.css";
 import App from "./App";
 import { PostsProvider } from "./context/postsContext";
 
-// entry point of program
+// entry point of application
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(

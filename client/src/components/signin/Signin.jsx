@@ -27,6 +27,7 @@ const Signin = () => {
     onSubmit: (values, { resetForm }) => {
       console.log(values);
 
+      // proxy: http://127.0.0.1:5555
       // fetch API => /login
       fetch("/login", {
         method: "POST",
@@ -43,7 +44,7 @@ const Signin = () => {
           }
         })
         .then((data) => {
-          navigate("/dashboard")
+          navigate("/dashboard");
           console.log(data);
         })
         .catch((error) => {

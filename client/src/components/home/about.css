@@ -34,9 +34,6 @@
 .cards {
   width: 95%;
   margin-top: 3rem;
-  /* margin-top: 2rem;
-  margin-left: auto;
-  margin-right: auto; */
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
   gap: 1rem;

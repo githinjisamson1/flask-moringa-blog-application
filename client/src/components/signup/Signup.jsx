@@ -39,6 +39,7 @@ const Signup = () => {
     onSubmit: (values, { resetForm }) => {
       console.log(values);
 
+      // proxy: http://127.0.0.1:5555
       // fetch API => /users : register user
       fetch("/users", {
         method: "POST",
@@ -162,7 +163,6 @@ const Signup = () => {
           </div>
 
           <div className="create-account-container">
-            {/* <input type="submit" /> */}
             <button className="create-account-btn" type="submit">
               Create Account
             </button>

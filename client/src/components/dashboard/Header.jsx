@@ -17,7 +17,10 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import moringaLogo from "../../assets/moringaLogo.png";
 
+
+// Styled components for customization
 const Search = styled("div")(({ theme }) => ({
+  // Styling for the search bar
   position: "relative",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -34,6 +37,7 @@ const Search = styled("div")(({ theme }) => ({
 }));
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
+  // Styling for the search icon
   padding: theme.spacing(0, 2),
   height: "100%",
   position: "absolute",
@@ -44,6 +48,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  // Styling for the input base of the search bar
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
@@ -58,9 +63,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 function Header() {
+  // State for managing menu opening/closing
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
+  // Check if the menu is open
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -68,6 +75,7 @@ function Header() {
     setAnchorEl(event.currentTarget);
   };
 
+  // Event handlers for opening/closing menus
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
@@ -81,7 +89,10 @@ function Header() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  // Unique IDs for menus
   const menuId = "primary-search-account-menu";
+
+  // Rendering the user profile menu
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -104,6 +115,8 @@ function Header() {
   );
 
   const mobileMenuId = "primary-search-account-menu-mobile";
+
+  // Rendering the mobile user profile menu
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}

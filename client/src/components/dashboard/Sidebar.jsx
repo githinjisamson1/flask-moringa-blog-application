@@ -4,6 +4,7 @@ import SchoolIcon from "@mui/icons-material/School";
 import { useGlobalContext } from "../../context/postsContext";
 
 const Sidebar = () => {
+  // Destructuring the filterPostByPhase
   const { filterPostByPhase } = useGlobalContext();
 
   return (

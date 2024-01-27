@@ -7,10 +7,8 @@ const PostListing = () => {
   const { posts, setPosts, filteredPosts, setFilteredPosts } =
     useGlobalContext();
 
-  //   if (posts) {
-  //     setFilteredPosts(posts);
-  //   }
-
+  // proxy:http:127.0.0.1:5555
+  // fetch API
   const fetchPosts = () => {
     fetch("/posts")
       .then((response) => {
@@ -25,6 +23,7 @@ const PostListing = () => {
       });
   };
 
+  // run side effect on initial render/once
   useEffect(() => {
     fetchPosts();
   }, []);
