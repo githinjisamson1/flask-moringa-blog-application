@@ -5,24 +5,23 @@ import * as yup from "yup";
 import moringaLogo from "../../assets/moringaLogo.png";
 import { useNavigate } from "react-router-dom";
 
+// signup
 const Signup = () => {
   const navigate = useNavigate();
-
-
 
   // 3 args => initialValues, validationSchema, onSubmit
   const formik = useFormik({
     initialValues: {
       username: "",
-      fullName: "",
+      full_name: "",
       email: "",
       password: "",
-      confirmPassword: "",
+      confirm_password: "",
     },
 
     validationSchema: yup.object().shape({
       username: yup.string().required("Username required"),
-      fullName: yup.string().required("Full Name required"),
+      full_name: yup.string().required("Full Name required"),
       email: yup
         .string()
         .email("Invalid email address")
@@ -31,32 +30,40 @@ const Signup = () => {
         .string()
         .min(8, "Password must be atleast 8 characters")
         .required("Password required"),
-      confirmPassword: yup
+      confirm_password: yup
         .string()
         .oneOf([yup.ref("password"), null], "Passwords must match")
-        // .oneOf(["password"])
         .required("Please confirm password"),
     }),
-    
-    onSubmit: (values) => {
+
+    onSubmit: (values, { resetForm }) => {
       console.log(values);
-      //   fetch("/signup", {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application.json",
-      //       Accept: "application.json",
-      //     },
-      //     body: JSON.stringify(values),
-      //   })
-      //     .then((response) => {
-      //       return response.json();
-      //     })
-      //     .then((data) => {
-      //       console.log(data);
-      //     })
-      //     .catch((error) => {
-      //       console.log(error);
-      //     });
+
+      // fetch API => /users : register user
+      fetch("/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(values),
+      })
+        .then((response) => {
+          if (response.ok) {
+            alert("Account created successfully");
+            navigate("/signin");
+
+            // clear form values
+            resetForm();
+            return response.json();
+          }
+        })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   });
 
@@ -89,17 +96,17 @@ const Signup = () => {
           </div>
 
           <div className="form-control">
-            <label htmlFor="fullName">Full Name</label>
+            <label htmlFor="full_name">Full Name</label>
             <br />
             <input
               type="text"
-              id="fullName"
-              name="fullName"
-              value={formik.values.fullName}
+              id="full_name"
+              name="full_name"
+              value={formik.values.full_name}
               onChange={formik.handleChange}
             />
-            {formik.touched.fullName && formik.errors.fullName ? (
-              <div className="error">{formik.errors.fullName}</div>
+            {formik.touched.full_name && formik.errors.full_name ? (
+              <div className="error">{formik.errors.full_name}</div>
             ) : null}
           </div>
 
@@ -134,17 +141,18 @@ const Signup = () => {
           </div>
 
           <div className="form-control">
-            <label htmlFor="confirmPassword">Confirm Password</label>
+            <label htmlFor="confirm_password">Confirm Password</label>
             <br />
             <input
               type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={formik.values.confirmPassword}
+              id="confirm_password"
+              name="confirm_password"
+              value={formik.values.confirm_password}
               onChange={formik.handleChange}
             />
-            {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-              <div className="error">{formik.errors.confirmPassword}</div>
+            {formik.touched.confirm_password &&
+            formik.errors.confirm_password ? (
+              <div className="error">{formik.errors.confirm_password}</div>
             ) : null}
           </div>
 

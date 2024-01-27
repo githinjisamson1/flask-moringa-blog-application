@@ -5,46 +5,50 @@ import * as yup from "yup";
 import moringaLogo from "../../assets/moringaLogo.png";
 import { useNavigate } from "react-router-dom";
 
+// signin
 const Signin = () => {
   const navigate = useNavigate();
 
   // 3 args => initialValues, validationSchema, onSubmit
   const formik = useFormik({
     initialValues: {
-      email: "",
+      username: "",
       password: "",
     },
 
     validationSchema: yup.object().shape({
-      email: yup
-        .string()
-        .email("Invalid email address")
-        .required("Email required"),
+      username: yup.string().required("username required"),
       password: yup
         .string()
         .min(8, "Password must be atleast 8 characters")
         .required("Password required"),
     }),
 
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       console.log(values);
-      //   fetch("/Signin", {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Accept: "application/json",
-      //     },
-      //     body: JSON.stringify(values),
-      //   })
-      //     .then((response) => {
-      //       return response.json();
-      //     })
-      //     .then((data) => {
-      //       console.log(data);
-      //     })
-      //     .catch((error) => {
-      //       console.log(error);
-      //     });
+
+      // fetch API => /login
+      fetch("/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(values),
+      })
+        .then((response) => {
+          if (response.ok) {
+            resetForm();
+            return response.json();
+          }
+        })
+        .then((data) => {
+          navigate("/dashboard")
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   });
 
@@ -62,17 +66,17 @@ const Signin = () => {
           <p className="secondary-title">Continue with us</p>
 
           <div className="form-control">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="username">username</label>
             <br />
             <input
-              type="email"
-              id="email"
-              name="email"
-              value={formik.values.email}
+              type="username"
+              id="username"
+              name="username"
+              value={formik.values.username}
               onChange={formik.handleChange}
             />
-            {formik.touched.email && formik.errors.email ? (
-              <div className="error">{formik.errors.email}</div>
+            {formik.touched.username && formik.errors.username ? (
+              <div className="error">{formik.errors.username}</div>
             ) : null}
           </div>
 
