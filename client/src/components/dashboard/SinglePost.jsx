@@ -3,8 +3,9 @@ import "./singlePost.css";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import CommentIcon from "@mui/icons-material/Comment";
-import { useGlobalUserContext } from "../../context/authContext";
+import { useNavigate } from "react-router-dom";
 
+// SinglePost
 const SinglePost = ({
   id,
   title,
@@ -16,24 +17,32 @@ const SinglePost = ({
   votes,
   comments,
 }) => {
-  // const { currentUser } = useGlobalUserContext();
-  // console.log(`CurrentUser: ${currentUser}`);
-  console.log(localStorage.getItem("auth_token"))
+  const navigate = useNavigate();
 
+  // console.log(localStorage.getItem("auth_token"));
+
+  // state for isFullTextVisible
   const [isFullTextVisible, setIsFullTextVisible] = useState(false);
 
+  // toggleReadmore functionality
   const toggleReadMore = () => {
     setIsFullTextVisible(!isFullTextVisible);
   };
 
   // console.log(votes[0].vote_type);
 
+  // track upVotes
   const numberOfVotes = votes.filter((vote) => {
     return vote.vote_type === true;
   });
 
   return (
-    <div className="single-post">
+    <div
+      className="single-post"
+      onClick={() => {
+        navigate(`/postView/${id}`);
+      }}
+    >
       <div className="post-owner">
         <h4>{user.full_name}</h4>
         <p>Phase: {phase}</p>
@@ -72,8 +81,8 @@ const SinglePost = ({
                 },
                 body: JSON.stringify({
                   vote_type: 1,
-                  // user_id: currentUser.data.id, //passed on the server side
                   post_id: id,
+                  // user_id: currentUser.data.id, //already passed on the server side
                 }),
               })
                 .then((response) => {

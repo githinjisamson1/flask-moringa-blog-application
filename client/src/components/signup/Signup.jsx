@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 const Signup = () => {
   const navigate = useNavigate();
 
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
 
   // 3 args => initialValues, validationSchema, onSubmit
   const formik = useFormik({
@@ -53,11 +53,11 @@ const Signup = () => {
       })
         .then((response) => {
           if (response.ok) {
-            alert("Account created successfully");
-            navigate("/signin");
-
             // clear form values
             resetForm();
+
+            alert("Account created successfully");
+            navigate("/signin");
             return response.json();
           }
         })
@@ -70,7 +70,6 @@ const Signup = () => {
           // }
         })
         .catch((error) => {
-          // !response.ok
           console.log(`Error ${error}`);
         });
     },

@@ -48,12 +48,12 @@ const Signin = () => {
         })
         .then((data) => {
           console.log(data);
-          navigate("/dashboard");
           setCurrentUser(data);
 
           if (data.auth_token) {
             localStorage.setItem("auth_token", data.auth_token);
           }
+          navigate("/dashboard");
         })
         .catch((error) => {
           console.log(error);

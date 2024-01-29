@@ -47,6 +47,7 @@ class Login(Resource):
             password = data['password']
             if user.authenticate(password):
                 try:
+                    # generate token
                     # token should expire after 24 hrs
                     user.token = jwt.encode(
                         {"user_id": str(user.id)},
@@ -72,6 +73,7 @@ class Login(Resource):
                 "data": None,
                 "error": "Unauthorized"
             }, 404
+            
         except Exception as e:
             return {
                 "message": "Something went wrong!",
