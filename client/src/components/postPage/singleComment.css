@@ -13,6 +13,9 @@
 .comment .time::before,
 .comment .time::after {
   content: ".";
+  font-weight: bold;
+  font-size: 1rem;
+  color: green;
 }
 .comment .comment-content {
   /* background-color: RED; */

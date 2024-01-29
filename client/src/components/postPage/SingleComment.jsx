@@ -1,20 +1,15 @@
 import React from "react";
 import "./singleComment.css";
 
-const SingleComment = () => {
+const SingleComment = ({ content, created_at, username }) => {
   return (
     <div className="comment">
       <div className="comment-author-time">
-        <h3 className="author">Author</h3>
-        <p className="time">3hr ago</p>
+        <h3 className="author">{username}</h3>
+        <p className="time">{created_at}</p>
       </div>
 
-      <div className="comment-content">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam odit
-        iure illum dignissimos, quam accusamus voluptates officiis sed animi
-        vero suscipit esse asperiores dicta soluta atque qui? Quidem, fuga!
-        Neque.
-      </div>
+      <div className="comment-content">{content}</div>
     </div>
   );
 };
