@@ -1,0 +1,52 @@
+.create-post-form-container {
+  background-color: #eee;
+  /* height: 100vh; */
+  padding: 2rem;
+}
+.create-post-form-container .create-post-form {
+  background-color: #fff;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px #bbb;
+  padding: 1rem;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.create-post-form h2 {
+  text-align: center;
+  letter-spacing: 0.2rem;
+  text-transform: uppercase;
+}
+.create-post-form .form-control {
+  display: flex;
+  flex-direction: column;
+}
+.create-post-form .form-control input, .create-post-form .form-control textarea{
+    /* background-color: red; */
+    padding: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+    border-radius: 5px;
+}
+.create-post-form .form-control input:focus, .create-post-form .form-control textarea:focus{
+    border: 2px solid #333;
+}
+.create-post-form .create-post-form-btn{
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    background-color: #003566;
+    color: #ccc;
+    transition: all 300ms ease;
+    text-transform: uppercase;
+    letter-spacing: .25rem;
+}
+.create-post-form .create-post-form-btn:hover{
+    background-color: #ccc;
+    color: #003566;
+}
