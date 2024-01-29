@@ -21,7 +21,7 @@ const SinglePost = ({
 
   // console.log(localStorage.getItem("auth_token"));
 
-  // state for isFullTextVisible
+  // isFullTextVisible state
   const [isFullTextVisible, setIsFullTextVisible] = useState(false);
 
   // toggleReadmore functionality
@@ -69,6 +69,7 @@ const SinglePost = ({
 
       <div className="post-bottom">
         <div className="vote-details">
+          {/* handle liking functionality */}
           <ThumbUpIcon
             onClick={() => {
               fetch("/votes", {
@@ -86,7 +87,9 @@ const SinglePost = ({
                 }),
               })
                 .then((response) => {
-                  return response.json();
+                  if (response.ok) {
+                    return response.json();
+                  }
                 })
                 .then((data) => {
                   console.log(data);

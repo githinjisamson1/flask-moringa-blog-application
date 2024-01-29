@@ -27,14 +27,14 @@ class Comments(Resource):
             args = parser.parse_args()
 
             new_comment = Comment(
-                post_id=args["post_id"],
+                post_id=int(args["post_id"]),
                 user_id=current_user.id,
                 content=args["content"]
             )
             db.session.add(new_comment)
             db.session.commit()
 
-            return make_response(jsonify(new_comment), 200)
+            return make_response(jsonify(new_comment.to_dict()), 200)
         except ValueError as e:
             return {"error": [str(e)]}
 

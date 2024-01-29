@@ -1,14 +1,10 @@
 import React from "react";
-// import Header from "./Header";
 import "./createPostForm.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useGlobalUserContext } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 
 function Create() {
-  const { currentUser, token } = useGlobalUserContext();
-
   // programmatic navigation
   const navigate = useNavigate();
 
@@ -20,7 +16,7 @@ function Create() {
       content: "",
       resources: "",
     },
-    
+
     validationSchema: Yup.object({
       phase: Yup.number().required("Phase required"),
       title: Yup.string().required("Title required"),
@@ -30,7 +26,6 @@ function Create() {
 
     onSubmit: (values, { resetForm }) => {
       console.log(values);
-      console.log(token);
 
       // fetch API
       fetch("/posts", {
@@ -45,6 +40,7 @@ function Create() {
         .then((response) => {
           if (response.ok) {
             resetForm();
+            alert("Post created successfully");
             navigate("/dashboard");
             return response.json();
           }
@@ -117,8 +113,8 @@ function Create() {
               <option value="4">Phase 4</option>
               <option value="5">Phase 5</option>
             </select>
-            {formik.touched && formik.errors.title ? (
-              <div className="error">*{formik.errors.title}</div>
+            {formik.touched && formik.errors.phase ? (
+              <div className="error">*{formik.errors.phase}</div>
             ) : null}
           </div>
           <div className="content-box">
@@ -148,9 +144,6 @@ function Create() {
               value={formik.values.resources}
               onChange={formik.handleChange}
             ></input>
-            {formik.touched && formik.errors.title ? (
-              <div className="error">*{formik.errors.title}</div>
-            ) : null}
           </div>
           <button className="publish" type="submit">
             Post

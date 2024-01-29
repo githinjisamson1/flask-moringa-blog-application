@@ -89,16 +89,16 @@ const Footer = () => {
         </div>
         <div className="footer-right">
           <a href="#q">
-            <FacebookIcon sx={{fontSize:"2rem"}}/>
+            <FacebookIcon sx={{ fontSize: "2rem" }} />
           </a>
           <a href="#q">
-            <LinkedInIcon sx={{fontSize:"2rem"}}/>
+            <LinkedInIcon sx={{ fontSize: "2rem" }} />
           </a>
           <a href="#q">
-            <XIcon sx={{fontSize:"2rem"}}/>
+            <XIcon sx={{ fontSize: "2rem" }} />
           </a>
           <a href="#q">
-            <YouTubeIcon sx={{fontSize:"2rem"}}/>
+            <YouTubeIcon sx={{ fontSize: "2rem" }} />
           </a>
         </div>
       </div>

@@ -5,7 +5,7 @@ const PostsContext = React.createContext();
 
 // PostsProvider
 const PostsProvider = ({ children }) => {
-  // states
+  // posts + filteredPosts states
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState(posts ? posts : []);
 

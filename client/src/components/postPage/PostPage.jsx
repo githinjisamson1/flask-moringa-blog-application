@@ -1,15 +1,15 @@
-import React from 'react'
-import Header from '../header/Header'
-import PostView from './PostView'
-// import "./postPage.css"
+import React from "react";
+import Header from "../header/Header";
+import PostView from "./PostView";
 
+// page for viewing SinglePost details
 const PostPage = () => {
   return (
-    <div className='post-page'>
-        <Header/>
-        <PostView/>
+    <div className="post-page">
+      <Header />
+      <PostView />
     </div>
-  )
-}
+  );
+};
 
-export default PostPage
+export default PostPage;

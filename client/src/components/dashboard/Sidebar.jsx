@@ -1,8 +1,5 @@
 import React from "react";
 import "./sidebar.css";
-import SchoolIcon from "@mui/icons-material/School";
-import HtmlIcon from "@mui/icons-material/Html";
-import JavascriptIcon from "@mui/icons-material/Javascript";
 import { useGlobalContext } from "../../context/postsContext";
 
 const Sidebar = () => {

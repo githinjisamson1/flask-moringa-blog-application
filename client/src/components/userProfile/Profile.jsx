@@ -7,8 +7,8 @@ import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import Header from "../header/Header";
 import { useGlobalUserContext } from "../../context/authContext";
 
-
 function Profile() {
+  // provide AuthContext
   const { currentUser } = useGlobalUserContext();
 
   return (

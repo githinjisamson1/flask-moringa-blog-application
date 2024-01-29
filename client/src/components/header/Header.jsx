@@ -114,13 +114,20 @@ function Header() {
       <MenuItem
         // onClick={handleMenuClose}
         onClick={() => {
-          handleMenuClose()
+          handleMenuClose();
           navigate("/profile");
         }}
       >
         Profile
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleMenuClose();
+          navigate("/userAccount");
+        }}
+      >
+        My account
+      </MenuItem>
     </Menu>
   );
 

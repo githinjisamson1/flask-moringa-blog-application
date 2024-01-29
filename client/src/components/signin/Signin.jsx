@@ -48,8 +48,12 @@ const Signin = () => {
         })
         .then((data) => {
           console.log(data);
-          setCurrentUser(data);
 
+          // update currentUser state
+          setCurrentUser(data);
+          
+          // prerequisite for auth_token => login
+          // use localStorage to store auth_token
           if (data.auth_token) {
             localStorage.setItem("auth_token", data.auth_token);
           }

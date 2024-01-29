@@ -4,6 +4,7 @@ import createPostCardImage from "../../assets/createPostCardImage.avif";
 import { useNavigate } from "react-router-dom";
 
 const Aside = () => {
+  // programmatic navigation
   const navigate = useNavigate();
   return (
     <div className="dashboard-aside">
@@ -24,7 +25,13 @@ const Aside = () => {
 
         {/* bottom */}
         <div className="create-post-card-btn">
-          <button onClick={() => {navigate("/createPost")}}>Create Post</button>
+          <button
+            onClick={() => {
+              navigate("/createPost");
+            }}
+          >
+            Create Post
+          </button>
         </div>
       </div>
     </div>

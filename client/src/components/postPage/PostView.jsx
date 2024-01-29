@@ -10,23 +10,56 @@ import SingleComment from "./SingleComment";
 import { useGlobalUserContext } from "../../context/authContext";
 
 const PostView = () => {
+  // provide AuthContext
   const { currentUser } = useGlobalUserContext();
 
   // access id url param
   const { id } = useParams();
 
+  // state for postViewData => posts/:id => null at start
   const [postViewData, setPostViewData] = useState(null);
 
+  // 3 args => initialValues, validationSchema, onSubmit
   const formik = useFormik({
     initialValues: {
-      postComment: "",
+      content: "",
     },
 
     validationSchema: Yup.object({
-      postComment: Yup.string().required("Comment required"),
+      content: Yup.string().required("Comment required"),
     }),
+    onSubmit: (values, { resetForm }) => {
+      console.log(values);
+
+      // create new comment for post
+      fetch("/comments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+        },
+        body: JSON.stringify({
+          ...values,
+          post_id: id,
+        }),
+      })
+        .then((response) => {
+          if (response.ok) {
+            alert("Comment created successfully");
+            return response.json();
+          }
+        })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   });
 
+  // run useEffect everytime id changes
   useEffect(() => {
     // fetch API - 1
     fetch(`/posts/${id}`)
@@ -100,21 +133,27 @@ const PostView = () => {
             </div>
           </div>
 
-          <form action="" className="pv-comment-form">
+          <form
+            action=""
+            className="pv-comment-form"
+            onSubmit={formik.handleSubmit}
+          >
             <label className="comment-label" htmlFor="">
               Comment as{" "}
               <span className="pv-username">{currentUser.data.username}</span>
             </label>
             <textarea
-              name=""
-              id=""
+              id="content"
+              name="content"
+              value={formik.values.content}
+              onChange={formik.handleChange}
               cols="30"
               rows="10"
               className="comment-container"
               placeholder="What are your  thoughts?"
             ></textarea>
 
-            <button className="pv-comment-btn">Comment</button>
+            <button type="submit" className="pv-comment-btn">Comment</button>
           </form>
 
           <div className="comments-container">

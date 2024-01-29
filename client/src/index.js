@@ -9,6 +9,7 @@ import { UserProvider } from "./context/authContext";
 // entry point of application
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
+// provide AuthContext + PostsContext
 root.render(
   <>
     <BrowserRouter>
