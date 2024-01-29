@@ -1,14 +1,15 @@
 import React from "react";
+// import Header from "./Header";
+import "./createPostForm.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import "./createPostForm.css";
 import { useGlobalUserContext } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 
-const CreatePostForm = () => {
-  const { currentUser } = useGlobalUserContext();
+function Create() {
+  const { currentUser, token } = useGlobalUserContext();
 
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -24,8 +25,9 @@ const CreatePostForm = () => {
       resources: Yup.string().url("Invalid URL"),
     }),
 
-    onSubmit: (values, {resetForm}) => {
+    onSubmit: (values, { resetForm }) => {
       console.log(values);
+      console.log(token);
 
       // fetch API
       fetch("/posts", {
@@ -39,8 +41,8 @@ const CreatePostForm = () => {
       })
         .then((response) => {
           if (response.ok) {
-            resetForm()
-            navigate("/dashboard")
+            resetForm();
+            navigate("/dashboard");
             return response.json();
           }
         })
@@ -52,81 +54,108 @@ const CreatePostForm = () => {
         });
     },
   });
+
   return (
-    <div className="create-post-form-container">
-      <form
-        action=""
-        className="create-post-form"
-        onSubmit={formik.handleSubmit}
-      >
-        <h2 className="create-post-title">Create New Post</h2>
-
-        <div className="form-control">
-          <label htmlFor="">Phase</label>
-          <input
-            type="number"
-            placeholder="e.g.,0, 1, 2, 3, 4, 5"
-            name="phase"
-            id="phase"
-            value={formik.values.phase}
-            onChange={formik.handleChange}
-          />
-          {formik.touched && formik.errors.phase ? (
-            <div className="error">*{formik.errors.phase}</div>
-          ) : null}
+    <>
+      <div className="create">
+        <h3 className="title">Write a Public Blog</h3>
+        <div className="info" id="info">
+          <h5 className="info-title">Writing a good blog</h5>
+          <p className="info-body">
+            Welcome to Moringa! Well, it's great to have you here. Our main goal
+            here is to build an active community of Moringa students where we
+            can help each other learn faster, debug easily and share new trends
+            and perspectives. If you are here, it means you are ready to write a
+            programming-related blog and these steps will guide you through the
+            process.
+          </p>
+          <ul className="guidelines">
+            <span>Steps</span>
+            <li>Summarize your blog in a one-line title.</li>
+            <li>Describe your problem in more detail.</li>
+            <li>Add the phase related to the blog you are writing.</li>
+            <li>Share resources that you used to solve the issue.</li>
+            <li>Review your blog and post it to the site.</li>
+          </ul>
         </div>
-
-        <div className="form-control">
-          <label htmlFor="">Title</label>
-          <input
-            type="text"
-            placeholder="Enter post title"
-            name="title"
-            id="title"
-            value={formik.values.title}
-            onChange={formik.handleChange}
-          />
-          {formik.touched && formik.errors.title ? (
-            <div className="error">*{formik.errors.title}</div>
-          ) : null}
-        </div>
-
-        <div className="form-control">
-          <label htmlFor="">Content</label>
-          <textarea
-            cols="30"
-            rows="10"
-            name="content"
-            id="content"
-            value={formik.values.content}
-            onChange={formik.handleChange}
-          ></textarea>
-          {formik.touched && formik.errors.content ? (
-            <div className="error">*{formik.errors.content}</div>
-          ) : null}
-        </div>
-
-        <div className="form-control">
-          <label htmlFor="">Resources</label>
-          <input
-            type="url"
-            placeholder="Enter link to resource"
-            name="resources"
-            id="resources"
-            value={formik.values.resources}
-            onChange={formik.handleChange}
-          />
-          {formik.touched && formik.errors.resources ? (
-            <div className="error">*{formik.errors.resources}</div>
-          ) : null}
-        </div>
-
-        <button type="submit" className="create-post-form-btn">
-          Create New Post
-        </button>
-      </form>
-    </div>
+        <form className="create-form" onSubmit={formik.handleSubmit} action="">
+          <div className="title-box">
+            <h5>Title</h5>
+            <em>Be specific and avoid being too word.</em>
+            <input
+              placeholder="e.g. How to install python using pyenv"
+              type="text"
+              name="title"
+              id="title"
+              value={formik.values.title}
+              onChange={formik.handleChange}
+            />
+            {formik.touched && formik.errors.title ? (
+              <div className="error">*{formik.errors.title}</div>
+            ) : null}
+          </div>
+          <div className="phase-select">
+            <h5>Phase</h5>
+            <em>
+              Select a phase that relates to the problem or solution you are
+              blogging about
+            </em>
+            <select
+              name="phase"
+              id="phase"
+              value={formik.values.phase}
+              onChange={formik.handleChange}
+            >
+              <option value="">Choose phase</option>
+              <option value="0">Phase 0</option>
+              <option value="1">Phase 1</option>
+              <option value="2">Phase 2</option>
+              <option value="3">Phase 3</option>
+              <option value="4">Phase 4</option>
+              <option value="5">Phase 5</option>
+            </select>
+            {formik.touched && formik.errors.title ? (
+              <div className="error">*{formik.errors.title}</div>
+            ) : null}
+          </div>
+          <div className="content-box">
+            <h5>What are the details about your problem?</h5>
+            <em>
+              Introduce the problem and expand on what you put in the title.
+              Minimum 20 characters.
+            </em>
+            <textarea
+              type="text"
+              name="content"
+              id="content"
+              value={formik.values.content}
+              onChange={formik.handleChange}
+            ></textarea>
+            {formik.touched && formik.errors.content ? (
+              <div className="error">*{formik.errors.content}</div>
+            ) : null}
+          </div>
+          <div className="resources-box">
+            <h5>Here you can share links to some of the resources you used</h5>
+            <input
+              type="url"
+              placeholder="Enter link to resource"
+              name="resources"
+              id="resources"
+              value={formik.values.resources}
+              onChange={formik.handleChange}
+            ></input>
+            {formik.touched && formik.errors.title ? (
+              <div className="error">*{formik.errors.title}</div>
+            ) : null}
+          </div>
+          <button className="publish" type="submit">
+            Post
+          </button>
+        </form>
+      </div>
+    </>
   );
-};
+}
 
-export default CreatePostForm;
+export default Create;
