@@ -14,10 +14,18 @@ const Sidebar = () => {
       <ul className="phases">
         <li
           onClick={() => {
+            filterPostByPhase("All");
+          }}
+        >
+          <i className="fa-brands fa-html5"></i>
+          View All
+        </li>
+        <li
+          onClick={() => {
             filterPostByPhase(0);
           }}
         >
-          <i class="fa-brands fa-html5"></i>
+          <i className="fa-brands fa-html5"></i>
           Phase 0
         </li>
         <li
@@ -26,7 +34,7 @@ const Sidebar = () => {
           }}
         >
           {" "}
-          <i class="fa-brands fa-js"></i>
+          <i className="fa-brands fa-js"></i>
           Phase 1
         </li>
         <li
@@ -35,7 +43,7 @@ const Sidebar = () => {
           }}
         >
           {" "}
-          <i class="fa-brands fa-react"></i>
+          <i className="fa-brands fa-react"></i>
           Phase 2
         </li>
         <li
@@ -44,7 +52,7 @@ const Sidebar = () => {
           }}
         >
           {" "}
-          <i class="fa-brands fa-python"></i>
+          <i className="fa-brands fa-python"></i>
           Phase 3
         </li>
         <li
@@ -53,7 +61,7 @@ const Sidebar = () => {
           }}
         >
           {" "}
-          <i class="fa-solid fa-flask"></i>
+          <i className="fa-solid fa-flask"></i>
           Phase 4
         </li>
         <li
@@ -62,7 +70,7 @@ const Sidebar = () => {
           }}
         >
           {" "}
-          <i class="fa-solid fa-diagram-project"></i>
+          <i className="fa-solid fa-diagram-project"></i>
           Phase 5
         </li>
       </ul>

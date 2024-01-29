@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "./Header";
+import Header from "../header/Header";
 import Sidebar from "./Sidebar";
 import PostListing from "./PostListing";
 import Aside from "./Aside";

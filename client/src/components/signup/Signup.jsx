@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./signup.css";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 // signup
 const Signup = () => {
   const navigate = useNavigate();
+
+  const [error, setError] = useState("")
 
   // 3 args => initialValues, validationSchema, onSubmit
   const formik = useFormik({
@@ -20,20 +22,20 @@ const Signup = () => {
     },
 
     validationSchema: yup.object().shape({
-      username: yup.string().required("Username required"),
-      full_name: yup.string().required("Full Name required"),
+      username: yup.string().required("*Username required"),
+      full_name: yup.string().required("*Full Name required"),
       email: yup
         .string()
-        .email("Invalid email address")
-        .required("Email required"),
+        .email("*Invalid email address")
+        .required("*Email required"),
       password: yup
         .string()
-        .min(8, "Password must be atleast 8 characters")
+        .min(8, "*Password must be atleast 8 characters")
         .required("Password required"),
       confirm_password: yup
         .string()
-        .oneOf([yup.ref("password"), null], "Passwords must match")
-        .required("Please confirm password"),
+        .oneOf([yup.ref("password"), null], "*Passwords must match")
+        .required("*Please confirm password"),
     }),
 
     onSubmit: (values, { resetForm }) => {
@@ -61,9 +63,15 @@ const Signup = () => {
         })
         .then((data) => {
           console.log(data);
+
+          // if(data.error){
+          //   setError(data.error)
+
+          // }
         })
         .catch((error) => {
-          console.log(error);
+          // !response.ok
+          console.log(`Error ${error}`);
         });
     },
   });
@@ -127,6 +135,7 @@ const Signup = () => {
             {formik.touched.email && formik.errors.email ? (
               <div className="error">{formik.errors.email}</div>
             ) : null}
+            {error && <div className="error">{error}</div>}
           </div>
 
           <div className="form-control">

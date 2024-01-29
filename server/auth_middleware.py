@@ -44,7 +44,7 @@ def token_required(f):
         except Exception as e:
             # Return a 500 Internal Server Error response for any exception during token decoding
             return {
-                "message": "Something went wrong",
+                "message": "Something went wrong here",
                 "data": None,
                 "error": str(e)
             }, 500

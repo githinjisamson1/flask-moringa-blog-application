@@ -11,8 +11,12 @@ const PostsProvider = ({ children }) => {
 
   // handle filter posts by phase
   const filterPostByPhase = (phase) => {
-    const phasePosts = posts.filter((post) => post.phase === phase);
-    setFilteredPosts(phasePosts);
+    if (phase === "All") {
+      setFilteredPosts(posts);
+    } else {
+      const phasePosts = posts.filter((post) => post.phase === phase);
+      setFilteredPosts(phasePosts);
+    }
   };
 
   // wrap return using Provider

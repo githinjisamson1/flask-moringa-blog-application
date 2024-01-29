@@ -1,8 +1,10 @@
 import React from "react";
 import "./aside.css";
 import createPostCardImage from "../../assets/createPostCardImage.avif";
+import { useNavigate } from "react-router-dom";
 
 const Aside = () => {
+  const navigate = useNavigate();
   return (
     <div className="dashboard-aside">
       <div className="create-post-card">
@@ -14,7 +16,7 @@ const Aside = () => {
         {/* middle */}
         <div className="create-post-card-body">
           <h3>
-            <i class="fa-solid fa-code"></i>
+            <i className="fa-solid fa-code"></i>
             Home
           </h3>
           <p>Moringa Blog frontpage.</p>
@@ -22,7 +24,7 @@ const Aside = () => {
 
         {/* bottom */}
         <div className="create-post-card-btn">
-          <button>Create Post</button>
+          <button onClick={() => {navigate("/createPost")}}>Create Post</button>
         </div>
       </div>
     </div>

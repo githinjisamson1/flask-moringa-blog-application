@@ -3,8 +3,10 @@ import "./singlePost.css";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import CommentIcon from "@mui/icons-material/Comment";
+import { useGlobalUserContext } from "../../context/authContext";
 
 const SinglePost = ({
+  id,
   title,
   phase,
   content,
@@ -14,6 +16,10 @@ const SinglePost = ({
   votes,
   comments,
 }) => {
+  // const { currentUser } = useGlobalUserContext();
+  // console.log(`CurrentUser: ${currentUser}`);
+  console.log(localStorage.getItem("auth_token"))
+
   const [isFullTextVisible, setIsFullTextVisible] = useState(false);
 
   const toggleReadMore = () => {
@@ -54,7 +60,33 @@ const SinglePost = ({
 
       <div className="post-bottom">
         <div className="vote-details">
-          <ThumbUpIcon />
+          <ThumbUpIcon
+            onClick={() => {
+              fetch("/votes", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  // Authorization: `Bearer ${currentUser.auth_token}`,
+                  Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+                  Accept: "application/json",
+                },
+                body: JSON.stringify({
+                  vote_type: 1,
+                  // user_id: currentUser.data.id, //passed on the server side
+                  post_id: id,
+                }),
+              })
+                .then((response) => {
+                  return response.json();
+                })
+                .then((data) => {
+                  console.log(data);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            }}
+          />
           <span>{numberOfVotes.length}</span>
           <ThumbDownIcon />
         </div>

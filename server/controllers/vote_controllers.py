@@ -23,19 +23,26 @@ class Votes(Resource):
         vote_lc = [vote.to_dict() for vote in Vote.query.all()]
         return make_response(jsonify(vote_lc), 200)
 
-    def post(self):
+    @token_required
+    def post(current_user, *args):
         try:
             args = parser.parse_args()
 
+            vote = Vote.query.filter(
+                Vote.user_id == current_user.id, Vote.post_id == args["post_id"]).first()
+
+            if vote:
+                return {"message": "Vote exists"}
+            
             new_vote = Vote(
                 post_id=args["post_id"],
                 user_id=args["user_id"],
-                vote_type=args["content"]
+                vote_type=(args["content"])
             )
             db.session.add(new_vote)
             db.session.commit()
 
-            return make_response(jsonify(new_vote.to_dict()), 200)
+            return make_response(jsonify(new_vote.to_dict()), 201)
         except ValueError as e:
             return {"error": [str(e)]}
 

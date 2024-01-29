@@ -4,10 +4,13 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import moringaLogo from "../../assets/moringaLogo.png";
 import { useNavigate } from "react-router-dom";
+import { useGlobalUserContext } from "../../context/authContext";
 
 // signin
 const Signin = () => {
   const navigate = useNavigate();
+
+  const { setCurrentUser } = useGlobalUserContext();
 
   // 3 args => initialValues, validationSchema, onSubmit
   const formik = useFormik({
@@ -44,8 +47,13 @@ const Signin = () => {
           }
         })
         .then((data) => {
-          navigate("/dashboard");
           console.log(data);
+          navigate("/dashboard");
+          setCurrentUser(data);
+
+          if (data.auth_token) {
+            localStorage.setItem("auth_token", data.auth_token);
+          }
         })
         .catch((error) => {
           console.log(error);
