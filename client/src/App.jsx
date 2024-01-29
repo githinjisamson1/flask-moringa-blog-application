@@ -7,6 +7,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import CreatePost from "./components/createPost/CreatePost";
 import PostPage from "./components/postPage/PostPage";
 import Profile from "./components/userProfile/Profile";
+import UserAccountPage from "./components/userAccount/UserAccountPage";
 
 // routes
 const App = () => {
@@ -16,10 +17,11 @@ const App = () => {
         <Route exact path="/" element={<Home />} />
         <Route exact path="/signup" element={<Signup />} />
         <Route exact path="/signin" element={<Signin />} />
+        <Route exact path="/profile" element={<Profile />} />
+        <Route exact path="/userAccount" element={<UserAccountPage />} />
         <Route exact path="/dashboard" element={<Dashboard />} />
         <Route exact path="/createPost" element={<CreatePost />} />
         <Route exact path="/postView/:id" element={<PostPage />} />
-        <Route exact path="/profile" element={<Profile />} />
       </Routes>
     </div>
   );
