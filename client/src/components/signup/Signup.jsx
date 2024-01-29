@@ -66,7 +66,6 @@ const Signup = () => {
 
           // if(data.error){
           //   setError(data.error)
-
           // }
         })
         .catch((error) => {

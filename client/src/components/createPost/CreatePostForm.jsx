@@ -9,8 +9,10 @@ import { useNavigate } from "react-router-dom";
 function Create() {
   const { currentUser, token } = useGlobalUserContext();
 
+  // programmatic navigation
   const navigate = useNavigate();
 
+  // 3 args => initialValues, validationSchema, onSubmit
   const formik = useFormik({
     initialValues: {
       phase: "",
@@ -18,6 +20,7 @@ function Create() {
       content: "",
       resources: "",
     },
+    
     validationSchema: Yup.object({
       phase: Yup.number().required("Phase required"),
       title: Yup.string().required("Title required"),

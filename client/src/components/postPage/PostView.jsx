@@ -7,12 +7,15 @@ import CommentIcon from "@mui/icons-material/Comment";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import SingleComment from "./SingleComment";
+import { useGlobalUserContext } from "../../context/authContext";
 
 const PostView = () => {
+  const { currentUser } = useGlobalUserContext();
+
   // access id url param
   const { id } = useParams();
 
-  const [postViewData, setPostViewData] = useState([]);
+  const [postViewData, setPostViewData] = useState(null);
 
   const formik = useFormik({
     initialValues: {
@@ -24,12 +27,7 @@ const PostView = () => {
     }),
   });
 
-  // const fetchSinglePost = () => {
-
-  // };
-
   useEffect(() => {
-    // fetchSinglePost()
     // fetch API - 1
     fetch(`/posts/${id}`)
       .then((response) => {
@@ -52,27 +50,15 @@ const PostView = () => {
         <div className="pv">
           {/* DISPLAY FLEX */}
           <div className="pv-post-owner">
-            <h4>Lorem, ipsum dolor.</h4>
-            <p>Phase: 1</p>
+            <h4>{postViewData.user.full_name}</h4>
+            <p>Phase: {postViewData.phase}</p>
           </div>
 
           <div className="pv-title">
-            <h3>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae,
-              similique?
-            </h3>
+            <h3>{postViewData.title}</h3>
           </div>
 
-          <div className="pv-post-content">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui ad
-            mollitia ab minima amet ipsam laudantium quia, alias nihil neque
-            esse cupiditate molestias, voluptatem tempora? Exercitationem facere
-            doloribus optio ut dolores, sunt officia veniam a quas unde eius
-            porro tempora adipisci maiores quia? Aspernatur nam perspiciatis
-            praesentium quas harum quo, cupiditate eligendi dolore at explicabo
-            eaque, sit, quasi esse blanditiis doloribus quam nemo vel! Modi qui
-            ullam aspernatur id amet dolorem pariatur debitis at eligendi!
-          </div>
+          <div className="pv-post-content">{postViewData.content}</div>
 
           <div className="pv-post-bottom">
             <div className="pv-vote-details">
@@ -115,7 +101,10 @@ const PostView = () => {
           </div>
 
           <form action="" className="pv-comment-form">
-            <label className="comment-label" htmlFor="">Comment as <span className="pv-username">Nahason</span></label>
+            <label className="comment-label" htmlFor="">
+              Comment as{" "}
+              <span className="pv-username">{currentUser.data.username}</span>
+            </label>
             <textarea
               name=""
               id=""
@@ -131,7 +120,13 @@ const PostView = () => {
           <div className="comments-container">
             {postViewData.comments &&
               postViewData.comments.map((comment) => {
-                return <SingleComment key={comment.id} {...comment} />;
+                return (
+                  <SingleComment
+                    key={comment.id}
+                    {...comment}
+                    username={postViewData.user.username}
+                  />
+                );
               })}
           </div>
         </div>

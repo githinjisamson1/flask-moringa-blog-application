@@ -16,6 +16,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import moringaLogo from "../../assets/moringaLogo.png";
+import { useNavigate } from "react-router-dom";
 
 // Styled components for customization
 const Search = styled("div")(({ theme }) => ({
@@ -62,6 +63,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 function Header() {
+  const navigate = useNavigate();
+
   // State for managing menu opening/closing
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -108,7 +111,15 @@ function Header() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem
+        // onClick={handleMenuClose}
+        onClick={() => {
+          handleMenuClose()
+          navigate("/profile");
+        }}
+      >
+        Profile
+      </MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
   );
@@ -171,7 +182,7 @@ function Header() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
         position="static"
-        sx={{ backgroundColor: "white", color: "#333", zIndex:1 }}
+        sx={{ backgroundColor: "white", color: "#333", zIndex: 1 }}
       >
         <Toolbar>
           <IconButton
